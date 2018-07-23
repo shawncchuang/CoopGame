@@ -20,15 +20,13 @@ public:
 	ASWeapon();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
     USkeletalMeshComponent* MeshComp;
     
-    // this function overrided must be virtual 
-    UFUNCTION(BlueprintCallable, Category = "Weapon")
-    virtual void Fire();
+ 
+    void PlayFireEffects(FVector TraceEnd);
     
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
     TSubclassOf<UDamageType> DamageType;
@@ -39,19 +37,20 @@ protected:
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
     FName TracerTargetName;
     
-     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
-     UParticleSystem* MuzzleEffect;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
+    UParticleSystem* MuzzleEffect;
     
-     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
     UParticleSystem* ImpactEffect;
     
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
     UParticleSystem* TracerEffect;
-    
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
+public :
+    // this function overrided must be virtual
+    UFUNCTION(BlueprintCallable, Category = "Weapon")
+    virtual void Fire();
+    
 	
 	
 };
