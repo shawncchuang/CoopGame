@@ -8,7 +8,7 @@
 
 class USkeltalMeshComponent;
 class UDamageType;
-class UParticalSystem;
+class UParticleSystem;
 
 UCLASS()
 class COOPGAME_API ASWeapon : public AActor
@@ -41,12 +41,15 @@ protected:
     UParticleSystem* MuzzleEffect;
     
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
-    UParticleSystem* ImpactEffect;
+    UParticleSystem* DefaultImpactEffect;
+    
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
+    UParticleSystem* FlashImpactEffect;
     
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
     UParticleSystem* TracerEffect;
     
-     UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+    UPROPERTY(EditDefaultsOnly, Category = "Weapon")
     TSubclassOf<UCameraShake> FireCamShake;
 
 public :
