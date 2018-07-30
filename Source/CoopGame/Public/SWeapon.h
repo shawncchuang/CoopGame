@@ -20,6 +20,7 @@ public:
 	ASWeapon();
 
 protected:
+    virtual void BeginPlay() override;
 
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
@@ -54,11 +55,28 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, Category = "Weapon")
     float BaseDamage;
+    
+     void Fire();
+    
+    FTimerHandle TimerHandle_TimebetweeenShots;
+    
+    float LastFireTime;
+    
+    /* RPM - Bullets per minute fired by weapon */
+    UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+    float RateOfFire;
+    
+    // Derived from RateOfFire
+    float TimeBetweenShots;
+    
 public :
+    /*
     // this function overrided must be virtual
     UFUNCTION(BlueprintCallable, Category = "Weapon")
     virtual void Fire();
+    */
     
-	
+    void StartFire();
+    void StopFire();
 	
 };

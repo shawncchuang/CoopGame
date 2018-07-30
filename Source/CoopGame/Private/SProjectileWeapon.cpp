@@ -5,7 +5,7 @@
 
 
 
-
+/*
 
 void ASProjectileWeapon::Fire() {
     AActor* MyOwner = GetOwner();
@@ -24,3 +24,5 @@ void ASProjectileWeapon::Fire() {
         GetWorld()->SpawnActor<AActor>(ProjectileClass, MuzzleLocation, EyeRotation, SpawnParams);
     }
 }
+ 
+ */
