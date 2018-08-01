@@ -30,7 +30,7 @@ void USHealthComponent::BeginPlay()
 	
 }
 
-void USHealthComponent::HandleTakeAnyDamage(AActor *DamagedActor, float Damage, const class UDamageType *DynamicType, class AController *InstigateBy, AActor *DamageCauser) {
+void USHealthComponent::HandleTakeAnyDamage(AActor *DamagedActor, float Damage, const class UDamageType *DamageType, class AController *InstigateBy, AActor *DamageCauser) {
    
     if(Damage <= 0.0f)
     {
@@ -41,6 +41,8 @@ void USHealthComponent::HandleTakeAnyDamage(AActor *DamagedActor, float Damage, 
     Health = FMath::Clamp(Health - Damage, 0.0f, DefaultHeath);
     
     UE_LOG(LogTemp, Log, TEXT("Health changed : %s"), *FString::SanitizeFloat(Health));
+    
+    OnHealthChanged.Broadcast(this, Health, Damage, DamageType, InstigateBy, DamageCauser );
 }
 
 
