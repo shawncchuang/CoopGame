@@ -57,7 +57,7 @@ void ASCharacter::BeginPlay()
     HealthComp->OnHealthChanged.AddDynamic(this, &ASCharacter::OnHealthChanged);
 }
 
-void ASCharacter::OnHealthChanged(USHealthComponent*  HealthComp , float Health, float HealthDelta,const class UDamageType* DamageType , class AController* InstigateBy, AActor* DamageCauser)
+void ASCharacter::OnHealthChanged(USHealthComponent*  OwningHealthComp , float Health, float HealthDelta,const class UDamageType* DamageType , class AController* InstigateBy, AActor* DamageCauser)
 {
     if(Health <= 0.0f && !bDied)
     {
