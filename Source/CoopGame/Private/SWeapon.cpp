@@ -9,7 +9,7 @@
 #include "PhysicalMaterials/PhysicalMaterial.h"
 #include "CoopGame.h"
 #include "TimerManager.h"
-
+#include "Net/UnrealNetwork.h"
 
 static int32 DebugWeaponDrawing = 0;
 FAutoConsoleVariableRef CVARDebugWeaponDrawing(
@@ -31,6 +31,8 @@ ASWeapon::ASWeapon()
     TracerTargetName = "Target";
     BaseDamage = 20.0f;
     RateOfFire = 600;
+    
+    SetReplicates(true);
 }
 
 void ASWeapon::BeginPlay()
@@ -44,6 +46,12 @@ void ASWeapon::BeginPlay()
 void ASWeapon::Fire()
 {
     // Trace the world , from pawn eyes to cross chair location
+    
+    if(Role < ROLE_Authority)
+    {
+        ServerFire();
+        
+    }
     
     AActor* MyOwner = GetOwner();
     if(MyOwner)
@@ -103,6 +111,12 @@ void ASWeapon::Fire()
         }
         
         PlayFireEffects(TracerEndPoint);
+        
+        if(Role == ROLE_Authority)
+        {
+            HitScanTrace.TraceTo = TracerEndPoint;
+        }
+        
     
         if(DebugWeaponDrawing > 0)
         {
@@ -157,6 +171,33 @@ void ASWeapon::StartFire() {
 
 void ASWeapon::StopFire() {
     GetWorldTimerManager().ClearTimer(TimerHandle_TimebetweeenShots);
+}
+
+void ASWeapon::OnRep_HitScanTrace() {
+   // Play cosmeitc FX
+    PlayFireEffects(HitScanTrace.TraceTo);
+    
+}
+
+
+void ASWeapon::ServerFire_Implementation()
+{
+    Fire();
+}
+
+bool ASWeapon::ServerFire_Validate()
+{
+    return true;
+    
+}
+
+
+void ASWeapon::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+    
+   DOREPLIFETIME_CONDITION(ASWeapon, HitScanTrace , COND_SkipOwner);
+ 
 }
 
 

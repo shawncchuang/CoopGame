@@ -10,6 +10,22 @@ class USkeltalMeshComponent;
 class UDamageType;
 class UParticleSystem;
 
+// Contains information of a single hitscan weapon line trace
+USTRUCT()
+struct FHitScanTrace
+{
+    GENERATED_BODY()
+    
+public:
+    
+    UPROPERTY()
+    FVector_NetQuantize TraceFrom;
+    
+    UPROPERTY()
+    FVector_NetQuantize TraceTo;
+};
+
+
 UCLASS()
 class COOPGAME_API ASWeapon : public AActor
 {
@@ -58,6 +74,9 @@ protected:
     
      void Fire();
     
+    UFUNCTION(Server, Reliable, WithValidation)
+    void ServerFire();
+    
     FTimerHandle TimerHandle_TimebetweeenShots;
     
     float LastFireTime;
@@ -68,6 +87,12 @@ protected:
     
     // Derived from RateOfFire
     float TimeBetweenShots;
+    
+    UPROPERTY(ReplicatedUsing=OnRep_HitScanTrace)
+    FHitScanTrace HitScanTrace;
+    
+    UFUNCTION()
+    void OnRep_HitScanTrace();
     
 public :
     /*
