@@ -117,13 +117,13 @@ void ASWeapon::Fire()
             HitScanTrace.TraceTo = TracerEndPoint;
         }
         
+        LastFireTime = GetWorld()->TimeSeconds;
+        
     
         if(DebugWeaponDrawing > 0)
         {
-         DrawDebugLine(GetWorld(), EyeLocation, TraceEnd, FColor::White, false,1.0f, 0, 1.0f);
+            DrawDebugLine(GetWorld(), EyeLocation, TraceEnd, FColor::White, false,1.0f, 0, 1.0f);
         }
-        
-        LastFireTime = GetWorld()->TimeSeconds;
     }
    
     
