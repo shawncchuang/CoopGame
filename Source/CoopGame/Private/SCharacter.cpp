@@ -26,6 +26,7 @@ ASCharacter::ASCharacter()
     GetCapsuleComponent()->SetCollisionResponseToChannel(COLLISION_WEAPON, ECR_Ignore);
     
     HealthComp = CreateDefaultSubobject<USHealthComponent>(TEXT("HealthComp"));
+  
     
     CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComp"));
     CameraComp->SetupAttachment(SpringArmComp);
@@ -47,7 +48,7 @@ void ASCharacter::BeginPlay()
     
     if(Role == ROLE_Authority)
     {
-        //Spawn a default weapon
+        //Spawn a default weapon ; Only run on the Server
         FActorSpawnParameters SpawnParamters;
         SpawnParamters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
         
@@ -170,9 +171,12 @@ void ASCharacter::StopFire() {
 
 void ASCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
+    // whate we want to replicate and how to replicate it
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
     
     DOREPLIFETIME(ASCharacter, CurrentWeapon);
+    
+    DOREPLIFETIME(ASCharacter, bDied);
 }
 
 

@@ -18,12 +18,14 @@ struct FHitScanTrace
     
 public:
     
+    // have to call raw enums as byte
     UPROPERTY()
-    FVector_NetQuantize TraceFrom;
+    TEnumAsByte<EPhysicalSurface> SurfaceType;
     
     UPROPERTY()
     FVector_NetQuantize TraceTo;
 };
+
 
 
 UCLASS()
@@ -44,6 +46,8 @@ protected:
     
  
     void PlayFireEffects(FVector TraceEnd);
+    
+    void PlayImpactEffects(EPhysicalSurface SurfaceType, FVector ImpactPoint);
     
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
     TSubclassOf<UDamageType> DamageType;
@@ -72,8 +76,9 @@ protected:
     UPROPERTY(EditDefaultsOnly, Category = "Weapon")
     float BaseDamage;
     
-     void Fire();
+    void Fire();
     
+    // Push this request to the hosting server
     UFUNCTION(Server, Reliable, WithValidation)
     void ServerFire();
     
@@ -88,6 +93,7 @@ protected:
     // Derived from RateOfFire
     float TimeBetweenShots;
     
+    // trigger this function everytime, this property gets replicated
     UPROPERTY(ReplicatedUsing=OnRep_HitScanTrace)
     FHitScanTrace HitScanTrace;
     
