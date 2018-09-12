@@ -8,17 +8,18 @@
 
 class USHealthComponent;
 class USphereComponent;
+class USoundCue;
 
 UCLASS()
 class COOPGAME_API ASTrackerBot : public APawn
 {
 	GENERATED_BODY()
 
-public:
+  public:
 	// Sets default values for this pawn's properties
 	ASTrackerBot();
 
-protected:
+  protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -66,11 +67,20 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "TrackerBot")
 	float ExplosionDamage;
 
+	UPROPERTY(EditDefaultsOnly, Category = "TrackerBot")
+	float SelfDamageInterval;
+
 	FTimerHandle TimerHandle_SelfDamage;
 
 	void DamageSelf();
 
-public:
+	UPROPERTY(EditDefaultsOnly, Category = "TrackerBot")
+	USoundCue *SelfDestructSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = "TrackerBot")
+	USoundCue *ExplodeSound;
+
+  public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
